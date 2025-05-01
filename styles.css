@@ -1,0 +1,137 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #999;
+    color: #fff;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: row; /* 水平排列子元素 */
+    align-items: center; /* 垂直居中 */
+    justify-content: space-between; /* 使元素分布在两端 */
+}
+
+.header-image {
+    max-height: 100px;
+    width: auto;
+}
+
+.left {
+    margin-left: 1rem; /* 给左侧图片添加左外边距 */
+}
+
+.right {
+    margin-right: 1rem; /* 给右侧图片添加右外边距 */
+}
+
+header h1, header nav {
+    flex-grow: 1; /* 让标题和导航栏占据剩余空间 */
+    text-align: center; /* 标题和导航栏内容居中 */
+}
+
+header nav ul {
+    display: flex;
+    flex-direction: row; /* 水平排列导航项 */
+    justify-content: center; /* 导航项水平居中 */
+}
+
+header nav ul li {
+    margin: 0 15px; /* 调整导航项的左右外边距 */
+    display: inline; /* 确保导航项水平排列 */
+}
+
+.header-image.left {
+    margin-left: 100px; /* 设置左侧外边距为 100px */
+}
+
+.left {
+    order: -1;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.server-box {
+    border-radius: 15px; /* 圆角效果 */
+    background-color: #f0f0f0; /* 背景颜色 */
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* 立体效果 */
+    transition: 0.3s;
+}
+
+.server-box:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); /* 鼠标悬停时增强立体效果 */
+}
+
+.contributor-boxes {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.contributor-box {
+    width: 220px; /* 修改宽度为 220px */
+    height: 100px; /* 保持高度为 100px */
+    border-radius: 10px; /* 小圆角 */
+    background-color: #f0f0f0; /* 矩形框背景颜色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+.contributor-image {
+    position: relative;
+    top: 25px;
+    left: 20px;
+}
+
+.contributor-box {
+    position: relative; /* 确保子元素定位参考该容器 */
+    display: flex; /* 使用 flex 布局 */
+    align-items: center; /* 垂直居中 */
+}
+
+.contributor-image {
+    position: static; /* 移除之前的相对定位 */
+    margin-left: 20px; /* 保持左边距 */
+}
+
+.contributor-title {
+    margin-left: 50px; /* 让文字距离小圆角矩形框左边 50px */
+    font-size: 1.5em; /* 增大文字大小，你可以根据需求调整这个值 */
+}
