@@ -3,84 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyLittlecraft(MLC)</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="images/server-icon-1.png" type="image/png" sizes="64x64">
+    <title>欢迎来到MyLittlecraft官网</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    a {
+        text-decoration: none;
+    }
+    </style>
+
 </head>
+
 <body>
+    <canvas id="sakuraCanvas"></canvas>
     <header>
-        <img src="/images/server-icon-1.png" alt="左侧图片" class="header-image left">
+        <img src="images/server-icon-3.png" alt="左侧图片" class="header-image left">
         <h1>MyLittlecraft(MLC)</h1>
         <nav>
             <ul>
                 <li><a href="#home">主页</a></li>
                 <li><a href="#server-list">服务器列表</a></li>
-                <li><a href="#server-docs">服务器文档</a></li>
-                <li><a href="#server-map">生存服网页地图</a></li>
                 <li><a href="#contributors">贡献者名单</a></li>
             </ul>
         </nav>
     </header>
 
+    <div class="slideshow">
+        <div class="bg-slide"></div>
+        <div class="bg-slide"></div>
+        <div class="bg-mask"></div>
+    </div>
+
     <main>
         <section id="home">
-            <h2>主页</h2>
-            <p>这里是 MyLittlecraft(MLC)，一个充满欢乐和创造的我的世界服务器。我们提供了丰富的游戏内容和友好的社区环境，欢迎各位玩家加入！</p>
+            <img src="images/title.png" alt="主页标题" class="home-title-image">
         </section>
+        <section id="home-intro">
+            <div class="home-intro-box">
+                <p>这里是MyLittlecraft(MLC)<br>一个充满欢乐和创造的我的世界小服务器<br>社区环境友好 & 管理活跃<br>欢迎各位玩家加入！</p>
+            </div>
+            <a target="_blank" href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=XxqSfUOlMd-3RTQEmn6Ihz5vd4KFMoeP&authKey=%2BY1c%2FHxX7WOrSevYrOj5nuzm4r9XygUY0vCnoOqEkm%2BeNP3S1pajP3WKjCj%2F%2BYrr&noverify=0&group_code=821656882">
+                <div class="home-intro-box-qq" >
+                    点击加入QQ群
+                </div>
+            </a>
+            <div class="home-intro-box-left">   
+                <a target="_blank" href="https://docs.qq.com/aio/DRnp3YU9sRmxWYnVB">
+                    <div class="home-intro-box-doc" >
+                        🛠️服务器文档
+                    </div>
+                </a>
+                <a target="_blank" href="https://frp-era.com:19581/">
+                    <div class="home-intro-box-map" >
+                        🗺️生存服网页地图
+                    </div>
+                </a>
+            </div>
+
+        </section>
+
+        
+        
 
         <section id="server-list">
-            <h2>服务器列表</h2>
-            <!-- 添加两个圆角矩形框 -->
-            <div class="server-box">
-                <!-- 添加图片 -->
-                <img src="/images/server-icon-2.png" alt="服务器图标">
-                <!-- 这里可以添加服务器的具体信息 -->
-                <p>原版生电服</p>
-            </div>
-            <div class="server-box">
-				<!-- 添加图片 -->
-                <img src="/images/server-icon-2.png" alt="服务器图标">
-                <!-- 这里可以添加服务器的具体信息 -->
-                <p>模组服</p>
+            <div class="list-box">
+                <h2>🕹️服务器列表</h2>
+                <div class="server-box">
+                    <div class="server-box-item">
+                        <img src="images/server-icon-2.png" alt="服务器图标">
+                        <p>插件生电服</p>
+                        <div id="server-status-1"></div>
+                    </div>
+                    <div class="server-box-item">
+                        <img src="images/server-icon-2.png" alt="服务器图标">
+                        <p>模组服</p>
+                        <div id="server-status-2"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- 添加服务器文档部分 -->
-        <section id="server-docs">
-            <h2>服务器文档</h2>
-            <p><a href="https://docs.qq.com/aio/DRnp3YU9sRmxWYnVB" target="_blank">https://docs.qq.com/aio/DRnp3YU9sRmxWYnVB</a></p>
+        <!-- <section id="server-docs">
+            <div class="list-box">
+                <h2>🛠️服务器文档</h2>
+                <p><a href="https://docs.qq.com/aio/DRnp3YU9sRmxWYnVB" target="_blank">https://docs.qq.com/aio/DRnp3YU9sRmxWYnVB</a></p>
+            </div>
         </section>
 
-        <!-- 添加服务器网页地图部分 -->
         <section id="server-map">
-            <h2>原版生电服网页地图</h2>
-            <p><a href="http://100.70.98.105:25564/" target="_blank">http://100.70.98.105:25564/</a></p>
-        </section>
+            <div class="list-box">
+                <h2>🗺️生存服网页地图</h2>
+                <p><a href="https://frp-era.com:19581/" target="_blank">https://frp-era.com:19581/</a></p>
+            </div>
+        </section> -->
 
         <section id="contributors">
-            <h2>贡献者名单</h2>
-            <div class="contributor-boxes">
-                <div class="contributor-box">
-                    <img src="/images/Mr_bl.png" alt="Mr_bl" class="contributor-image">
-                    <span class="contributor-title">服主</span>
-                </div>
-                <div class="contributor-box">
-                    <img src="/images/borron12.png" alt="borron12" class="contributor-image">
-                    <span class="contributor-title">管理员</span>
-                </div>
-                <div class="contributor-box">
-                    <img src="/images/luan159.png" alt="luan159" class="contributor-image">
-                    <span class="contributor-title">管理员</span>
-                </div>
-                <div class="contributor-box"></div>
-                <div class="contributor-box"></div>
+            <div class="list-box">
+                <p style="font-size: 20px; color: #ffffff; font-weight: bold;">感谢所有为MyLittlecraft(MLC)做出贡献的玩家和管理员！</p>
+                <h2>⚙️贡献者名单</h2>
+                <div class="contributor-boxes">
+                    <div class="contributor-box">
+                        <img src="images/Mr_bl.png" alt="Mr_bl" class="contributor-image">
+                        <span class="contributor-title">服主</span>
+                    </div>
+                    <div class="contributor-box">
+                        <img src="images/borron12.png" alt="borron12" class="contributor-image">
+                        <span class="contributor-title">管理员</span>
+                    </div>
+                    <div class="contributor-box">
+                        <img src="images/luan159.png" alt="luan159" class="contributor-image">
+                        <span class="contributor-title">管理员</span>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="contributor-box"> 
+                        XINGMENGRUGE 玩家
+                    </div>
+                    <div class="contributor-box">
+                        Asutariya 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        lingying232 玩家
+                    </div>
+                    <div class="contributor-box">
+                        ZFWANSU 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        QAI0233 玩家
+                    </div>
+                    <div class="contributor-box">
+                        JSKDFL 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        xinkongtlh 玩家
+                    </div>
+                    <div class="contributor-box">
+                        QINGyu33 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        Lexorvk 玩家
+                    </div>
+                    <div class="contributor-box">
+                        ABC0620 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        mhjbb 玩家
+                    </div>
+                    <div class="contributor-box">
+                        YuEn202 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        Txbu123 玩家
+                    </div>
+                    <div class="contributor-box">
+                        XingHui_HIH 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        SkarbrandMakas 玩家
+                    </div>
+                    <div class="contributor-box">
+                        gao_gaod 玩家
+                    </div>
+                    <div class="contributor-box">
+                        Zephyr_Luo 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        Wordmaya123 玩家
+                    </div>
+                    <div class="contributor-box">
+                        like_father 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        hanhankami 玩家
+                    </div>
+                    <div class="contributor-box">
+                        WWWMMB 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        yuhuajiangyue 玩家
+                    </div>
+                    <div class="contributor-box">
+                        WestSi_uuz 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        Ancittce 玩家
+                    </div>
+                    <div class="contributor-box">
+                        ELAINA 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        Mobious 玩家
+                    </div>
+                    <div class="contributor-box">
+                        paopao 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        rettern 玩家
+                    </div>
+                    <div class="contributor-box">
+                        Frisk2048 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        jinitaimei 玩家
+                    </div>
+                    <div class="contributor-box">
+                        keenoki 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        miku 玩家
+                    </div>
+                    <div class="contributor-box">
+                        xiechun5201314 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        Yx1angx2 玩家
+                    </div>
+                    <div class="contributor-box">
+                        xiaoguai666 玩家
+                    </div>
+                    <div class="contributor-box"> 
+                        
+                    </div>
+                    <div class="contributor-box">
+                        
+                    </div>
+                    <div class="contributor-box"> 
+                        
+                    </div>
+                    <div class="contributor-box">
+                        
+                    </div>
+                    <div class="contributor-box"> 
+
+                    </div>
             </div>
-            <!-- 你可以在这里添加贡献者名单的具体内容 -->
-            <ul>
-                <!-- 贡献者名单项 -->
-            </ul>
         </section>
     </main>
-
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
