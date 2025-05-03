@@ -222,3 +222,22 @@ fetch(apiUrl_2)
         });
 
 
+// 3D翻转效果
+const cards = document.querySelectorAll('.server-box-item');
+
+cards.forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const rotateX = (y / card.offsetHeight - 0.5) * 40;
+        const rotateY = -(x / card.offsetWidth - 0.5) * 40;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+});
