@@ -113,24 +113,43 @@ button:hover {
     flex-wrap: wrap; /* 允许换行 */
 }
 
+
+
 .server-box-item{
     width: 700px; /* 修改宽度为 220px */
     height: 200px; /* 保持高度为 100px */
     border-radius: 15px; /* 小圆角 */
     background-color: #ffffff;
     margin-top: 20px;
-    color: #151515;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* 文字阴影 */
     font-size: 20px; /* 增大文字大小，你可以根据需求调整这个值 */
     font-weight: bold; /* 粗体字 */
     padding: 20px; /* 内边距 */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
     transition: 0.3s;
+    background-image: var(--bg-image); /* 使用 CSS 变量作为背景图片 */
+    background-size: cover;
+    background-position: center;
+    position: relative; /* 关键：让伪元素定位 */
+    overflow: hidden; /* 防止伪元素溢出圆角 */
 }
+
+.server-text{
+    filter: initial;
+    z-index: 1;
+}
+
+
+
 
 .server-box-item:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19); /* 鼠标悬停时的阴影效果 */
     background-color: #ffffff; /* 鼠标悬停时的背景颜色 */
     transform: scale(1.02); /* 鼠标悬停时的缩放效果 */
+    font-size: 25px; /* 鼠标悬停时的文字大小 */
+    color: #82fcdb;
+    z-index: 2; /* 确保文字在伪元素之上 */
 }
 
 .contributor-boxes {
@@ -162,6 +181,12 @@ button:hover {
     padding: 10px;
     font-weight: 700;
     font-size: 20px;
+}
+
+.contributor-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19); /* 鼠标悬停时的阴影效果 */
+    background-color: #ffffff; /* 鼠标悬停时的背景颜色 */
+    transform: scale(1.02); /* 鼠标悬停时的缩放效果 */
 }
 
 .contributor-image {
@@ -237,8 +262,8 @@ button:hover {
 .home-intro-box-doc{
     border-radius: 15px;
     background-color: #54db81e3;
-    width: 200px; /* 设置宽度为 300px */
-    height: 30px; /* 设置高度为 200px */
+    width: 230px; /* 设置宽度为 300px */
+    height: 70px; /* 设置高度为 200px */
     font-size: 20px;
     padding: 20px;
     margin: 20px;
@@ -256,8 +281,8 @@ button:hover {
 .home-intro-box-map{
     border-radius: 15px;
     background-color: #eef660e3;
-    width: 200px; /* 设置宽度为 300px */
-    height: 30px; /* 设置高度为 200px */
+    width: 230px; /* 设置宽度为 300px */
+    height: 70px; /* 设置高度为 200px */
     font-size: 20px;
     padding: 20px;
     margin: 20px;
