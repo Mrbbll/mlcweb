@@ -3,12 +3,13 @@
 </script>
 
 <template>
+  <div class="sidemenu">
     <h5 class="header">Default colors</h5>
-      
-      <el-menu 
+    <el-menu 
         default-active="1"
         active-text-color="#ffd04b"
         background-color="#545c64"
+
         text-color="#fff"
         width="100%"
         router
@@ -26,9 +27,14 @@
             <span index="/money">Money</span>
         </el-menu-item>
       </el-menu>
+  </div>
+
 </template>
 
 <style scoped>
+.sidemenu{
+    position: fixed;
+}
 .header{
     margin-left: 20px;
 }

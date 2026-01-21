@@ -6,7 +6,7 @@
 
 <template>
     <div>
-        <el-container >
+        <el-container class="container">
       <el-aside width="200px" class="bg-color-1">
         <sidemenu />
       </el-aside>
@@ -22,6 +22,10 @@
 </template>
 
 <style scoped>
+.container{
+    margin-left: 0%;
+    height: 100vh;
+}
 .bg-color-1{
     background-color: #ffffff;
 }

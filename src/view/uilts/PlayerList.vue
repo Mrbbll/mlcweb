@@ -16,15 +16,11 @@
         query()
     })
 
-    const click = ()=>{
-        show.value = !show.value
-        show.value = !show.value
-    }
     
     </script>
     
     <template>
-        <el-button @click="click">Click Me</el-button>
+        <el-button @click="show = !show">Click Me</el-button>
         <el-collapse-transition>
             <div v-show="show">
             <el-card v-for="value in tableData" :key="value.uuid" class="player-card" shadow="always">
