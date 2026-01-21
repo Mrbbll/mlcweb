@@ -1,10 +1,10 @@
 <script setup>
-  import Elem from './view/Elem.vue'
+  import container from './view/layout/container.vue'
 </script>
 
 <template>
   <div>
-    <Elem />
+    <container/>
   </div>
 </template>
 
