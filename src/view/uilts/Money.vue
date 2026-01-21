@@ -2,19 +2,11 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 
-import { ElButton } from 'element-plus'
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue'
-
 let tableData = ref([])
 const query = async()=>{
-    const res = await axios.get("http://localhost:8080/data")
-    tableData.value = res.data.reslist
-    console.log(res.data)
+    const res = await axios.get("http://127.0.0.1:8080/money")
+    tableData.value = res.data.data
+    console.log(res.data.data)
 
 }
 onMounted(()=>{
