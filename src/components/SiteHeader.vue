@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { guideUrl } from '@/site-config'
 
 const route = useRoute()
 const scrolled = ref(false)
@@ -32,7 +31,7 @@ onBeforeUnmount(() => {
       <nav class="site-nav" aria-label="主导航">
         <router-link to="/">首页</router-link>
         <router-link to="/map">在线地图</router-link>
-        <a :href="guideUrl">玩法指南</a>
+        <router-link to="/guide">玩法指南</router-link>
         <router-link to="/about">关于我们</router-link>
       </nav>
     </div>
