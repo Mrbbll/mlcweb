@@ -5,6 +5,7 @@ import { guideUrl } from '@/site-config'
 
 const route = useRoute()
 const scrolled = ref(false)
+const logoUrl = `${import.meta.env.BASE_URL}server-logo.png`
 
 const isTransparent = computed(() => route.name === 'home' && !scrolled.value)
 
@@ -26,7 +27,7 @@ onBeforeUnmount(() => {
   <header class="site-header" :class="{ 'is-transparent': isTransparent }">
     <div class="header-inner">
       <router-link class="brand" to="/" aria-label="MLC 首页">
-        <img class="brand-logo" src="/server-logo.png" width="72" height="72" alt=""><span>MLC</span>
+        <img class="brand-logo" :src="logoUrl" width="72" height="72" alt=""><span>MLC</span>
       </router-link>
       <nav class="site-nav" aria-label="主导航">
         <router-link to="/">首页</router-link>
