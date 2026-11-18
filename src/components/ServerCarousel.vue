@@ -1,10 +1,12 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
+const baseUrl = import.meta.env.BASE_URL
+
 const slides = [
-  { src: '/pics/server-01.jpg', alt: 'MLC 服务器图片 1' },
-  { src: '/pics/server-02.png', alt: 'MLC 服务器图片 2' },
-  { src: '/pics/server-03.png', alt: 'MLC 服务器图片 3' },
+  { src: `${baseUrl}pics/server-01.jpg`, alt: 'MLC 服务器图片 1' },
+  { src: `${baseUrl}pics/server-02.png`, alt: 'MLC 服务器图片 2' },
+  { src: `${baseUrl}pics/server-03.png`, alt: 'MLC 服务器图片 3' },
 ]
 
 const cycleDuration = 5000
