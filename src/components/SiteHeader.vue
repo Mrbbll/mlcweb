@@ -32,6 +32,7 @@ onBeforeUnmount(() => {
         <router-link to="/">首页</router-link>
         <router-link to="/map">在线地图</router-link>
         <router-link to="/guide">玩法指南</router-link>
+        <router-link to="/leaderboard">排行榜</router-link>
         <router-link to="/about">关于我们</router-link>
       </nav>
     </div>

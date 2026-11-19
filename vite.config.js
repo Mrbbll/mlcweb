@@ -4,8 +4,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/mlcweb/' : '/',
+export default defineConfig({
+  base: process.env.VITE_BASE || '/',
   plugins: [
     vue(),
   ],
@@ -14,4 +14,9 @@ export default defineConfig(({ command }) => ({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-}))
+  server: {
+    proxy: {
+      '/api': 'http://127.0.0.1:8090',
+    },
+  },
+})
