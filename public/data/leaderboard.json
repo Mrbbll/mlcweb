@@ -1,0 +1,18 @@
+{
+  "demo": true,
+  "updatedAt": "2026-11-19T12:00:00+08:00",
+  "players": [
+    { "name": "Notch", "seconds": 1576800 },
+    { "name": "Steve", "seconds": 1083600 },
+    { "name": "Alex", "seconds": 993600 },
+    { "name": "Herobrine", "seconds": 770400 },
+    { "name": "Jeb_", "seconds": 604800 },
+    { "name": "Dinnerbone", "seconds": 475200 },
+    { "name": "Grumm", "seconds": 345600 },
+    { "name": "Searge", "seconds": 255600 },
+    { "name": "Marc", "seconds": 162000 },
+    { "name": "NathanAdams", "seconds": 82800 },
+    { "name": "ErikBroes", "seconds": 43200 },
+    { "name": "LydiaWinters", "seconds": 21600 }
+  ]
+}
