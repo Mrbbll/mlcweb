@@ -5,6 +5,8 @@ import { mapUrl } from '@/site-config'
 
 const route = useRoute()
 
+const defaultView = 'world:0:64:0:500:0:0:0:1:flat'
+
 function queryValue(value) {
   const text = Array.isArray(value) ? value[0] : value
   return text ? String(text) : ''
@@ -19,7 +21,7 @@ function numberValue(value) {
 
 function buildFrameSrc() {
   const world = queryValue(route.query.world)
-  if (!world) return mapUrl
+  if (!world) return `${mapUrl}#${defaultView}`
   const x = numberValue(route.query.x)
   const z = numberValue(route.query.z)
   if (x === null || z === null) return `${mapUrl}#${world}`
