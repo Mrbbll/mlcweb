@@ -6,7 +6,8 @@ const route = useRoute()
 const scrolled = ref(false)
 const logoUrl = `${import.meta.env.BASE_URL}server-logo.png`
 
-const isTransparent = computed(() => route.name === 'home' && !scrolled.value)
+const transparentRoutes = ['home', 'about']
+const isTransparent = computed(() => transparentRoutes.includes(route.name) && !scrolled.value)
 
 function onScroll() {
   scrolled.value = window.scrollY > 40
