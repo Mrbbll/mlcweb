@@ -8,8 +8,20 @@ const route = useRoute()
 
 const current = computed(() => guidePages.find(page => page.path === route.path) || guideSections[0])
 
+const parentSection = computed(() => {
+  if (!current.value.parentId) return null
+  return guideSections.find(section => section.id === current.value.parentId) ?? null
+})
+
+const subNav = computed(() => {
+  if (current.value.children?.length) return current.value
+  return parentSection.value
+})
+
 const html = computed(() => marked
   .parse(current.value.content)
+  .replaceAll('<table>', '<div class="table-scroll"><table>')
+  .replaceAll('</table>', '</table></div>')
   .replaceAll('src="pics/', `src="${import.meta.env.BASE_URL}pics/`))
 
 function isTrail(section) {
@@ -36,6 +48,14 @@ function isTrail(section) {
               :class="{ 'is-active': child.id === current.id }"
             >{{ child.title }}</router-link>
           </template>
+        </nav>
+        <nav v-if="subNav" class="guide-subnav" aria-label="章节目录">
+          <router-link
+            v-for="child in subNav.children"
+            :key="child.id"
+            :to="child.path"
+            :class="{ 'is-active': child.id === current.id }"
+          >{{ child.title }}</router-link>
         </nav>
       </aside>
       <article class="guide-content" v-html="html"></article>
