@@ -134,12 +134,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 .footer-inner { display: flex; justify-content: space-between; gap: 16px; padding-top: 22px; padding-bottom: 22px; font-size: 12px; }
 .map-view { height: calc(100svh - var(--header-height)); min-height: 300px; }
 .map-view iframe { display: block; width: 100%; height: 100%; border: 0; background: #172017; color-scheme: dark; }
-.ripple { position: absolute; z-index: 0; border-radius: 50%; background: rgba(150, 92, 22, .3); pointer-events: none; transform: scale(0); animation: ripple-spread 600ms ease-out forwards; }
-.is-transparent .site-nav .ripple, .home-hero .button-secondary .ripple, .hero-controls button .ripple { background: rgba(255, 255, 255, .35); }
-@keyframes ripple-spread { to { opacity: 0; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide, .site-header { transition: none; }
-  .ripple { display: none; }
 }
 @media (max-width: 1050px) {
   .site-nav { gap: 25px; }

@@ -1,9 +1,25 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { BAClickFX } from 'ba-click-fx'
 import SiteHeader from '@/components/SiteHeader.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import MapView from '@/views/MapView.vue'
+
+let clickFx = null
+
+onMounted(() => {
+  clickFx = new BAClickFX({
+    outputCompositing: 'browser-overlay',
+    hostCompositing: 'screen',
+    hostCompositingSurface: 'dom-backdrop',
+  })
+})
+
+onBeforeUnmount(() => {
+  clickFx?.destroy()
+  clickFx = null
+})
 
 const route = useRoute()
 const isMap = computed(() => route.name === 'map')
