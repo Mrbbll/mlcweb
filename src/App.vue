@@ -8,15 +8,30 @@ import MapView from '@/views/MapView.vue'
 
 let clickFx = null
 
+const handleRawPointerMove = event => {
+  if (!clickFx || event.pointerType === 'touch') return
+  clickFx.pointerMove({
+    x: event.clientX,
+    y: event.clientY,
+    pointerId: event.pointerId,
+    pointerType: event.pointerType,
+  })
+}
+
 onMounted(() => {
   clickFx = new BAClickFX({
     outputCompositing: 'browser-overlay',
     hostCompositing: 'screen',
     hostCompositingSurface: 'dom-backdrop',
   })
+  clickFx.updateConfig({ trailAlways: true })
+  if ('onpointerrawupdate' in window) {
+    window.addEventListener('pointerrawupdate', handleRawPointerMove, { capture: true, passive: true })
+  }
 })
 
 onBeforeUnmount(() => {
+  window.removeEventListener('pointerrawupdate', handleRawPointerMove, true)
   clickFx?.destroy()
   clickFx = null
 })
