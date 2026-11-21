@@ -6,7 +6,7 @@ const route = useRoute()
 const scrolled = ref(false)
 const logoUrl = `${import.meta.env.BASE_URL}server-logo.png`
 
-const transparentRoutes = ['home', 'about']
+const transparentRoutes = ['home']
 const isTransparent = computed(() => transparentRoutes.includes(route.name) && !scrolled.value)
 
 function onScroll() {
