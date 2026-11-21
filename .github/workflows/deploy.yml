@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 permissions:
@@ -23,6 +25,13 @@ jobs:
         with:
           node-version: 20
           cache: npm
+      - name: Update leaderboard data
+        run: |
+          if curl -fsS --max-time 30 'http://api.mylittlecraft.top:19396/api/v1/leaderboard/playtime?limit=100' -o /tmp/leaderboard.json; then
+            mv /tmp/leaderboard.json public/data/leaderboard.json
+          else
+            echo "排行榜接口抓取失败，沿用仓库中的数据"
+          fi
       - run: npm ci
       - run: npm run build
         env:
