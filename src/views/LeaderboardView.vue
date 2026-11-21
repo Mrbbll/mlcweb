@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { leaderboardEndpoint } from '@/site-config'
+import { renderPlayerHead } from '@/utils/head-renderer'
 
 const baseUrl = import.meta.env.BASE_URL
 const backdropUrl = `${baseUrl}pics/server-01.jpg`
@@ -103,12 +104,32 @@ const updatedAt = computed(() => {
 
 const totalLabel = computed(() => {
   const hours = Math.round(totalSeconds.value / 3600)
-  return hours >= 1000 ? `${(hours / 1000).toFixed(1)}K 小时` : `${hours.toLocaleString('zh-CN')} 小时`
+  return hours >= 1000 ? `${(hours / 1000).toFixed(1)}K H` : `${hours.toLocaleString('zh-CN')} H`
 })
 
 function formatHours(seconds) {
-  return `${Math.round((seconds || 0) / 3600).toLocaleString('zh-CN')} 小时`
+  return `${Math.round((seconds || 0) / 3600).toLocaleString('zh-CN')} H`
 }
+
+const headImages = ref({})
+let headRunId = 0
+
+async function loadHeadImages(players) {
+  const runId = ++headRunId
+  for (const player of players) {
+    if (runId !== headRunId) return
+    if (headImages.value[player.name]) continue
+    const skinUrl = `https://crafthead.net/skin/${encodeURIComponent(player.uuid || player.name)}`
+    const image = await renderPlayerHead(skinUrl)
+    if (image && runId === headRunId) {
+      headImages.value[player.name] = image
+    }
+  }
+}
+
+watch(paged, players => {
+  loadHeadImages(players)
+}, { immediate: true })
 
 function avatarUrl(name) {
   return `https://crafthead.net/helm/${encodeURIComponent(name)}/64`
@@ -170,8 +191,7 @@ function podiumClass(rank) {
             >
               <span class="leaderboard-rank">{{ player.rank }}</span>
               <span class="leaderboard-avatar">
-                <span class="leaderboard-initial">{{ player.name.slice(0, 1).toUpperCase() }}</span>
-                <img :src="avatarUrl(player.name)" :alt="player.name" width="40" height="40" loading="lazy" @error="onAvatarError">
+                <img :src="headImages[player.name] || avatarUrl(player.name)" :alt="player.name" width="40" height="40" loading="lazy" @error="onAvatarError">
               </span>
               <span class="leaderboard-name">{{ player.name }}</span>
               <span class="leaderboard-time">{{ formatHours(player.seconds) }}</span>

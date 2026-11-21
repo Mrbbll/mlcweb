@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Minecraftia";
+  src: url("./fonts/Minecraftia-Regular.ttf") format("truetype");
+  font-display: swap;
+  ascent-override: 239%;
+  descent-override: 12%;
+  line-gap-override: 0%;
+}
 :root {
   color-scheme: light;
   --paper: #fff;
@@ -119,11 +127,23 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 .leaderboard-item.is-first .leaderboard-rank { background: var(--yellow); color: var(--brand); }
 .leaderboard-item.is-second .leaderboard-rank { background: rgba(228, 226, 221, .92); color: #57534b; }
 .leaderboard-item.is-third .leaderboard-rank { background: rgba(237, 223, 200, .92); color: #7a5730; }
-.leaderboard-avatar { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(255, 255, 255, .14); overflow: hidden; }
+.leaderboard-item.is-first, .leaderboard-item.is-second, .leaderboard-item.is-third { border: 1px solid rgba(255, 255, 255, .22); border-radius: 10px; background: rgba(255, 255, 255, .04); margin: 6px 0; }
+.leaderboard-item.is-first { border-color: rgba(250, 214, 74, .55); background: rgba(250, 214, 74, .05); }
+.leaderboard-item.is-second { border-color: rgba(228, 226, 221, .45); }
+.leaderboard-item.is-third { border-color: rgba(237, 223, 200, .45); }
+.leaderboard-item.is-first .leaderboard-rank { --podium-rgb: 250, 214, 74; }
+.leaderboard-item.is-second .leaderboard-rank { --podium-rgb: 228, 226, 221; }
+.leaderboard-item.is-third .leaderboard-rank { --podium-rgb: 237, 223, 200; }
+.leaderboard-item.is-first .leaderboard-rank, .leaderboard-item.is-second .leaderboard-rank, .leaderboard-item.is-third .leaderboard-rank { animation: podium-pulse 2.8s ease-in-out infinite; }
+@keyframes podium-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--podium-rgb), 0); }
+  50% { box-shadow: 0 0 12px 3px rgba(var(--podium-rgb), .5); }
+}
+.leaderboard-avatar { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 0; overflow: hidden; }
 .leaderboard-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
-.leaderboard-initial { color: rgba(255, 255, 255, .7); font-size: 16px; font-weight: 700; }
-.leaderboard-name { overflow: hidden; color: #fff; font-size: 15px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
-.leaderboard-time { color: rgba(255, 255, 255, .66); font-size: 14px; font-variant-numeric: tabular-nums; }
+.leaderboard-name { overflow: hidden; color: #fff; font-size: 15px; font-weight: 400; text-overflow: ellipsis; white-space: nowrap; }
+.leaderboard-time { color: rgba(255, 255, 255, .66); font-size: 15px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.leaderboard-name, .leaderboard-time { height: 40px; font-family: "Minecraftia", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; line-height: 40px; -webkit-font-smoothing: none; }
 .about-view { min-height: calc(100svh - var(--header-height)); }
 .about-main { grid-column: 2; min-width: 0; max-width: 100%; }
 .about-links { display: flex; flex-wrap: wrap; gap: 24px 40px; max-width: 760px; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--blue); font-size: 14px; }
@@ -134,6 +154,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 .map-view iframe { display: block; width: 100%; height: 100%; border: 0; background: #172017; color-scheme: dark; }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide, .site-header { transition: none; }
+  .leaderboard-item.is-first .leaderboard-rank, .leaderboard-item.is-second .leaderboard-rank, .leaderboard-item.is-third .leaderboard-rank { animation: none; }
 }
 @media (max-width: 1050px) {
   .site-nav { gap: 25px; }
@@ -167,8 +188,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
   .leaderboard-item { grid-template-columns: 30px 36px minmax(0, 1fr) auto; gap: 10px; }
   .leaderboard-rank { width: 28px; height: 28px; font-size: 13px; }
   .leaderboard-avatar { width: 36px; height: 36px; }
-  .leaderboard-name { font-size: 14px; }
-  .leaderboard-time { font-size: 13px; }
+  .leaderboard-name { height: 36px; font-size: 14px; line-height: 36px; }
+  .leaderboard-time { height: 36px; font-size: 14px; line-height: 36px; }
   .guide-layout { grid-template-columns: 1fr; gap: 12px; padding-top: 18px; padding-bottom: 60px; }
   .guide-side, .guide-content { min-width: 0; max-width: 100%; }
   .guide-side { position: static; }
