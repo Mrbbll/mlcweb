@@ -107,6 +107,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 .leaderboard-search input { width: 100%; max-width: 300px; height: 40px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, .3); border-radius: 8px; background: rgba(255, 255, 255, .12); color: #fff; font: inherit; font-size: 14px; }
 .leaderboard-search input::placeholder { color: rgba(255, 255, 255, .5); }
 .leaderboard-search input:focus { border-color: var(--yellow); background: rgba(255, 255, 255, .18); outline: none; }
+.leaderboard-pager { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 18px 0 12px; color: rgba(255, 255, 255, .72); font-size: 14px; }
+.leaderboard-pager button { min-width: 72px; height: 34px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, .3); border-radius: 8px; background: rgba(255, 255, 255, .12); color: #fff; font-size: 14px; cursor: pointer; }
+.leaderboard-pager button:hover:not(:disabled) { border-color: rgba(255, 255, 255, .6); background: rgba(255, 255, 255, .2); }
+.leaderboard-pager button:disabled { opacity: .4; cursor: default; }
+.leaderboard-pager span { font-variant-numeric: tabular-nums; }
 .leaderboard-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255, 255, 255, .16); }
 .leaderboard-item { display: grid; grid-template-columns: 34px 40px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 12px 6px; border-bottom: 1px solid rgba(255, 255, 255, .16); transition: background-color .2s ease; }
 .leaderboard-item:hover { background: rgba(255, 255, 255, .1); }

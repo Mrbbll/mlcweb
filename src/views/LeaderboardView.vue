@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { leaderboardEndpoint } from '@/site-config'
 
 const baseUrl = import.meta.env.BASE_URL
@@ -9,7 +9,7 @@ const leaderboardUrl = /^https?:\/\//.test(leaderboardEndpoint)
   : `${baseUrl.replace(/\/$/, '')}/${leaderboardEndpoint.replace(/^\//, '')}`
 
 const CACHE_KEY = 'mlc-leaderboard'
-const CACHE_VERSION = 1
+const CACHE_VERSION = 2
 
 const status = ref('loading')
 const payload = ref(null)
@@ -66,15 +66,26 @@ async function loadLeaderboard() {
 onMounted(loadLeaderboard)
 
 const ranked = computed(() => (payload.value?.players ?? [])
-  .filter(player => player && player.name)
+  .filter(player => player && player.name && !/_\d+$|^[A-Z]{2}\d+$/.test(player.name))
   .slice()
   .sort((a, b) => (b.seconds || 0) - (a.seconds || 0))
   .map((player, index) => ({ ...player, rank: index + 1 })))
 
-const shown = computed(() => {
+const PAGE_SIZE = 20
+const page = ref(1)
+
+const filtered = computed(() => {
   const query = keyword.value.trim().toLowerCase()
   if (!query) return ranked.value
   return ranked.value.filter(player => player.name.toLowerCase().includes(query))
+})
+
+const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE)))
+
+const paged = computed(() => filtered.value.slice((page.value - 1) * PAGE_SIZE, page.value * PAGE_SIZE))
+
+watch(keyword, () => {
+  page.value = 1
 })
 
 const totalSeconds = computed(() => ranked.value.reduce((sum, player) => sum + (player.seconds || 0), 0))
@@ -100,7 +111,7 @@ function formatHours(seconds) {
 }
 
 function avatarUrl(name) {
-  return `https://crafthead.net/avatar/${encodeURIComponent(name)}/64`
+  return `https://crafthead.net/helm/${encodeURIComponent(name)}/64`
 }
 
 function onAvatarError(event) {
@@ -150,9 +161,9 @@ function podiumClass(rank) {
             <input v-model="keyword" type="search" placeholder="搜索玩家名" aria-label="搜索玩家名">
           </div>
 
-          <ol v-if="shown.length" class="leaderboard-list">
+          <ol v-if="filtered.length" class="leaderboard-list">
             <li
-              v-for="player in shown"
+              v-for="player in paged"
               :key="player.name"
               class="leaderboard-item"
               :class="podiumClass(player.rank)"
@@ -166,7 +177,12 @@ function podiumClass(rank) {
               <span class="leaderboard-time">{{ formatHours(player.seconds) }}</span>
             </li>
           </ol>
-          <p v-else class="leaderboard-state">没有匹配的玩家。</p>
+          <nav v-if="filtered.length && totalPages > 1" class="leaderboard-pager" aria-label="排行榜分页">
+            <button type="button" :disabled="page === 1" @click="page--">上一页</button>
+            <span>{{ page }} / {{ totalPages }}</span>
+            <button type="button" :disabled="page === totalPages" @click="page++">下一页</button>
+          </nav>
+          <p v-if="!filtered.length" class="leaderboard-state">没有匹配的玩家。</p>
         </template>
       </div>
     </div>
