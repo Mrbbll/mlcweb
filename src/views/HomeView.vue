@@ -5,7 +5,6 @@ import ServerCarousel from '@/components/ServerCarousel.vue'
 <template>
   <section class="view home-view" aria-labelledby="home-title">
     <ServerCarousel>
-      <p class="server-label">Minecraft 服务器</p>
       <h1 id="home-title">MLC</h1>
       <p class="intro-copy">新来的朋友，先看看玩法指南。<br>想找地方，就打开在线地图。</p>
       <div class="hero-actions">
