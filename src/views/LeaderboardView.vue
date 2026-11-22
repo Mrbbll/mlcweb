@@ -1,19 +1,42 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import { leaderboardEndpoint } from '@/site-config'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { economyLeaderboardEndpoint, leaderboardEndpoint } from '@/site-config'
 import { renderPlayerHead } from '@/utils/head-renderer'
 
 const baseUrl = import.meta.env.BASE_URL
 const backdropUrl = `${baseUrl}pics/server-01.jpg`
-const leaderboardUrl = /^https?:\/\//.test(leaderboardEndpoint)
-  ? leaderboardEndpoint
-  : `${baseUrl.replace(/\/$/, '')}/${leaderboardEndpoint.replace(/^\//, '')}`
-
-const CACHE_KEY = 'mlc-leaderboard'
 const CACHE_VERSION = 2
+const balanceFormatter = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 2 })
 
-const status = ref('loading')
-const payload = ref(null)
+const boards = reactive({
+  playtime: {
+    label: '在线时长',
+    title: '在线时长',
+    totalLabel: '累计时长',
+    endpoint: leaderboardEndpoint,
+    cacheKey: 'mlc-leaderboard',
+    valueKey: 'seconds',
+    formatValue: formatHours,
+    formatTotal: formatTotalHours,
+    status: 'idle',
+    payload: null,
+  },
+  economy: {
+    label: '经济排行',
+    title: '经济排行',
+    totalLabel: '榜内余额合计',
+    endpoint: economyLeaderboardEndpoint,
+    cacheKey: 'mlc-economy-leaderboard',
+    valueKey: 'balance',
+    formatValue: formatBalance,
+    formatTotal: formatBalance,
+    status: 'idle',
+    payload: null,
+  },
+})
+const activeKey = ref('playtime')
+const board = computed(() => boards[activeKey.value])
+const payload = computed(() => board.value.payload)
 const keyword = ref('')
 
 function todayStamp() {
@@ -21,21 +44,21 @@ function todayStamp() {
   return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
 }
 
-function readCache() {
+function readCache(cacheKey) {
   try {
-    const raw = localStorage.getItem(CACHE_KEY)
+    const raw = localStorage.getItem(cacheKey)
     if (!raw) return null
     const entry = JSON.parse(raw)
     if (entry.version !== CACHE_VERSION || entry.date !== todayStamp()) return null
     return entry.data
-  } catch (error) {
+  } catch {
     return null
   }
 }
 
-function writeCache(data) {
+function writeCache(cacheKey, data) {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
+    localStorage.setItem(cacheKey, JSON.stringify({
       version: CACHE_VERSION,
       date: todayStamp(),
       data,
@@ -44,33 +67,41 @@ function writeCache(data) {
   }
 }
 
-async function loadLeaderboard() {
-  const cached = readCache()
+async function loadLeaderboard(selected) {
+  if (selected.status === 'loading' || selected.status === 'ready') return
+  const cached = readCache(selected.cacheKey)
   if (cached) {
-    payload.value = cached
-    status.value = 'ready'
+    selected.payload = cached
+    selected.status = 'ready'
     return
   }
 
+  selected.status = 'loading'
+  const { endpoint } = selected
+  const url = /^(https?:\/\/|\/)/.test(endpoint) ? endpoint : `${baseUrl}${endpoint}`
   try {
-    const response = await fetch(leaderboardUrl, { cache: 'no-cache' })
+    const response = await fetch(url, { cache: 'no-cache' })
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     const data = await response.json()
-    payload.value = data
-    status.value = 'ready'
-    writeCache(data)
-  } catch (error) {
-    status.value = 'error'
+    if (!Array.isArray(data?.players)) throw new Error('Invalid leaderboard payload')
+    selected.payload = data
+    selected.status = 'ready'
+    writeCache(selected.cacheKey, data)
+  } catch {
+    selected.status = 'error'
   }
 }
 
-onMounted(loadLeaderboard)
+onMounted(() => loadLeaderboard(board.value))
 
-const ranked = computed(() => (payload.value?.players ?? [])
-  .filter(player => player && player.name && !/_\d+$|^[A-Z]{2}\d+$/.test(player.name))
-  .slice()
-  .sort((a, b) => (b.seconds || 0) - (a.seconds || 0))
-  .map((player, index) => ({ ...player, rank: index + 1 })))
+const ranked = computed(() => {
+  const { valueKey } = board.value
+  return (payload.value?.players ?? [])
+    .filter(player => typeof player?.name === 'string' && player.name && Number.isFinite(player[valueKey])
+      && (activeKey.value !== 'playtime' || !/_\d+$|^[A-Z]{2}\d+$/.test(player.name)))
+    .sort((a, b) => b[valueKey] - a[valueKey])
+    .map((player, index) => ({ ...player, rank: index + 1 }))
+})
 
 const PAGE_SIZE = 20
 const page = ref(1)
@@ -89,7 +120,16 @@ watch(keyword, () => {
   page.value = 1
 })
 
-const totalSeconds = computed(() => ranked.value.reduce((sum, player) => sum + (player.seconds || 0), 0))
+watch(activeKey, () => {
+  keyword.value = ''
+  page.value = 1
+  loadLeaderboard(board.value)
+})
+
+const totalLabel = computed(() => {
+  const { valueKey, formatTotal } = board.value
+  return formatTotal(ranked.value.reduce((sum, player) => sum + player[valueKey], 0))
+})
 
 const totalPlayers = computed(() => payload.value?.totalPlayers ?? ranked.value.length)
 
@@ -102,13 +142,17 @@ const updatedAt = computed(() => {
   return Number.isNaN(date.getTime()) ? '未标注' : date.toLocaleDateString('zh-CN')
 })
 
-const totalLabel = computed(() => {
-  const hours = Math.round(totalSeconds.value / 3600)
+function formatTotalHours(seconds) {
+  const hours = Math.round(seconds / 3600)
   return hours >= 1000 ? `${(hours / 1000).toFixed(1)}K H` : `${hours.toLocaleString('zh-CN')} H`
-})
+}
 
 function formatHours(seconds) {
-  return `${Math.round((seconds || 0) / 3600).toLocaleString('zh-CN')} H`
+  return `${Math.round(seconds / 3600).toLocaleString('zh-CN')} H`
+}
+
+function formatBalance(balance) {
+  return `${balanceFormatter.format(balance)} 水晶币`
 }
 
 const headImages = ref({})
@@ -145,22 +189,29 @@ function podiumClass(rank) {
 </script>
 
 <template>
-  <section class="view leaderboard-view" aria-label="玩家在线时长排行榜">
+  <section class="view leaderboard-view" aria-labelledby="leaderboard-title">
     <div class="leaderboard-backdrop" aria-hidden="true">
       <img :src="backdropUrl" alt="">
     </div>
     <div class="page-wrap leaderboard-wrap">
       <header class="leaderboard-head">
-        <p class="leaderboard-kicker">排行榜</p>
-        <h1>玩家在线时长</h1>
-        <p class="leaderboard-desc">按服务器记录的累计在线时长排序，数据定期更新。</p>
+        <h1 id="leaderboard-title">{{ board.title }}</h1>
       </header>
 
       <div class="leaderboard-panel">
+        <div class="leaderboard-switch" role="group" aria-label="选择排行榜">
+          <button
+            v-for="(option, key) in boards"
+            :key="key"
+            type="button"
+            :aria-pressed="activeKey === key"
+            @click="activeKey = key"
+          >{{ option.label }}</button>
+        </div>
         <p v-if="isDemo" class="leaderboard-notice">数据接口还在接入，以下是示例数据，正式数据上线后自动替换。</p>
 
-        <p v-if="status === 'loading'" class="leaderboard-state">正在加载排行榜……</p>
-        <p v-else-if="status === 'error'" class="leaderboard-state">排行榜数据暂时读取不到，稍后再试。</p>
+        <p v-if="board.status === 'idle' || board.status === 'loading'" class="leaderboard-state" role="status">正在加载排行榜……</p>
+        <p v-else-if="board.status === 'error'" class="leaderboard-state" role="status">排行榜数据暂时读取不到，稍后再试。</p>
 
         <template v-else>
           <div class="leaderboard-summary">
@@ -170,7 +221,7 @@ function podiumClass(rank) {
             </div>
             <div class="leaderboard-stat">
               <span class="leaderboard-stat-value">{{ totalLabel }}</span>
-              <span class="leaderboard-stat-label">累计时长</span>
+              <span class="leaderboard-stat-label">{{ board.totalLabel }}</span>
             </div>
             <div class="leaderboard-stat">
               <span class="leaderboard-stat-value">{{ updatedAt }}</span>
@@ -185,7 +236,7 @@ function podiumClass(rank) {
           <ol v-if="filtered.length" class="leaderboard-list">
             <li
               v-for="player in paged"
-              :key="player.name"
+              :key="player.uuid || player.name"
               class="leaderboard-item"
               :class="podiumClass(player.rank)"
             >
@@ -194,7 +245,7 @@ function podiumClass(rank) {
                 <img :src="headImages[player.name] || avatarUrl(player.name)" :alt="player.name" width="40" height="40" loading="lazy" @error="onAvatarError">
               </span>
               <span class="leaderboard-name">{{ player.name }}</span>
-              <span class="leaderboard-time">{{ formatHours(player.seconds) }}</span>
+              <span class="leaderboard-time">{{ board.formatValue(player[board.valueKey]) }}</span>
             </li>
           </ol>
           <nav v-if="filtered.length && totalPages > 1" class="leaderboard-pager" aria-label="排行榜分页">
@@ -202,7 +253,7 @@ function podiumClass(rank) {
             <span>{{ page }} / {{ totalPages }}</span>
             <button type="button" :disabled="page === totalPages" @click="page++">下一页</button>
           </nav>
-          <p v-if="!filtered.length" class="leaderboard-state">没有匹配的玩家。</p>
+          <p v-if="!filtered.length" class="leaderboard-state">{{ keyword.trim() ? '没有匹配的玩家。' : '暂无上榜玩家。' }}</p>
         </template>
       </div>
     </div>

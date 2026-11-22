@@ -1,0 +1,10 @@
+{
+  "demo": true,
+  "updatedAt": null,
+  "totalPlayers": 3,
+  "players": [
+    { "name": "Steve", "balance": 1250.75 },
+    { "name": "Alex", "balance": 980.5 },
+    { "name": "Notch", "balance": 536 }
+  ]
+}

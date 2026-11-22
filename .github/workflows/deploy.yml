@@ -27,16 +27,21 @@ jobs:
           cache: npm
       - name: Update leaderboard data
         run: |
-          if curl -fsS --max-time 30 'http://api.mylittlecraft.top:19396/api/v1/leaderboard/playtime?limit=100' -o /tmp/leaderboard.json; then
-            mv /tmp/leaderboard.json public/data/leaderboard.json
-          else
-            echo "排行榜接口抓取失败，沿用仓库中的数据"
-          fi
+          update_leaderboard() {
+            if curl -fsS --max-time 30 "http://api.mylittlecraft.top:19396/api/v1/leaderboard/$1?limit=100" -o "/tmp/$2"; then
+              mv "/tmp/$2" "public/data/$2"
+            else
+              echo "$1 排行榜接口抓取失败，沿用仓库中的数据"
+            fi
+          }
+          update_leaderboard playtime leaderboard.json
+          update_leaderboard economy economy-leaderboard.json
       - run: npm ci
       - run: npm run build
         env:
           VITE_BASE: /mlcweb/
           VITE_LEADERBOARD_ENDPOINT: data/leaderboard.json
+          VITE_ECONOMY_LEADERBOARD_ENDPOINT: data/economy-leaderboard.json
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:

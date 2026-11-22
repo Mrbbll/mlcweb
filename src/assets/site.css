@@ -105,6 +105,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 .leaderboard-head h1 { margin: 0 0 12px; color: #fff; font-size: clamp(32px, 5vw, 52px); line-height: 1.2; text-shadow: 0 4px 26px rgba(0, 0, 0, .5); }
 .leaderboard-desc { margin: 0 0 26px; color: rgba(255, 255, 255, .84); font-size: 16px; line-height: 1.7; text-shadow: 0 2px 12px rgba(0, 0, 0, .45); }
 .leaderboard-panel { padding: 22px 26px 8px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 16px; background: rgba(18, 24, 18, .35); box-shadow: 0 18px 50px rgba(0, 0, 0, .28); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
+.leaderboard-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.leaderboard-switch button { min-height: 40px; padding: 0 16px; border: 1px solid rgba(255, 255, 255, .24); border-radius: 8px; background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .82); font: inherit; font-size: 14px; cursor: pointer; }
+.leaderboard-switch button:hover { background: rgba(255, 255, 255, .17); color: #fff; }
+.leaderboard-switch button[aria-pressed="true"] { border-color: rgba(250, 214, 74, .55); background: rgba(250, 214, 74, .13); color: var(--yellow); }
+.leaderboard-switch button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
 .leaderboard-notice { margin: 0 0 18px; padding: 12px 16px; border-left: 3px solid var(--yellow); border-radius: 0 8px 8px 0; background: rgba(250, 248, 241, .1); color: rgba(255, 255, 255, .82); font-size: 14px; line-height: 1.6; }
 .leaderboard-state { padding: 40px 0; color: rgba(255, 255, 255, .66); font-size: 15px; text-align: center; }
 .leaderboard-summary { display: flex; flex-wrap: wrap; gap: 18px 48px; margin: 0 0 24px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, .16); border-bottom: 1px solid rgba(255, 255, 255, .16); }
