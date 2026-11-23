@@ -7,6 +7,7 @@ const slides = [
   { src: `${baseUrl}pics/server-01.jpg`, alt: 'MLC 服务器图片 1' },
   { src: `${baseUrl}pics/server-02.png`, alt: 'MLC 服务器图片 2' },
   { src: `${baseUrl}pics/server-03.png`, alt: 'MLC 服务器图片 3' },
+  { src: `${baseUrl}pics/server-04.png`, alt: 'MLC 服务器图片 4' },
 ]
 
 const cycleDuration = 5000
