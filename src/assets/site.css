@@ -34,11 +34,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 .brand-logo { display: block; width: 72px; height: 72px; object-fit: contain; image-rendering: pixelated; }
 .site-nav { display: flex; align-self: stretch; gap: clamp(24px, 4vw, 58px); }
 .site-nav a { position: relative; display: flex; align-items: center; justify-content: center; min-width: 92px; color: #55534d; font-size: 16px; white-space: nowrap; }
-.site-nav a:hover, .site-nav a[aria-current=page] { color: #723b01; }
-.site-nav a[aria-current=page] { font-weight: 700; }
-.site-nav a[aria-current=page]::after { content: ""; position: absolute; bottom: 18px; left: 0; right: 0; height: 2px; background: var(--yellow); }
+.site-nav a:hover, .site-nav a[aria-current=page], .site-nav a.is-nav-active { color: #723b01; }
+.site-nav a[aria-current=page], .site-nav a.is-nav-active { font-weight: 700; }
+.site-nav a[aria-current=page]::after, .site-nav a.is-nav-active::after { content: ""; position: absolute; bottom: 18px; left: 0; right: 0; height: 2px; background: var(--yellow); }
 .is-transparent .brand, .is-transparent .site-nav a { color: #fff; }
-.is-transparent .site-nav a:hover, .is-transparent .site-nav a[aria-current=page] { color: #fff; }
+.is-transparent .site-nav a:hover, .is-transparent .site-nav a[aria-current=page], .is-transparent .site-nav a.is-nav-active { color: #fff; }
 .is-transparent .site-nav a { text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
 .home-hero { position: relative; display: flex; align-items: center; margin-top: calc(-1 * var(--header-height)); min-height: 100svh; color: #fff; }
 .hero-backdrop { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; z-index: 0; overflow: hidden; background: #172017; }
@@ -173,7 +173,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
   .brand-logo { width: 56px; height: 56px; }
   .site-nav { width: 100%; flex: 1; gap: 0; }
   .site-nav a { flex: 1; min-width: 0; font-size: 13px; }
-  .site-nav a[aria-current=page]::after { bottom: 9px; }
+  .site-nav a[aria-current=page]::after, .site-nav a.is-nav-active::after { bottom: 9px; }
   .home-hero h1 { font-size: 76px; }
   .home-hero .intro-copy { font-size: 16px; margin: 18px auto 30px; }
   .home-hero-inner { padding-bottom: 110px; }

@@ -9,6 +9,19 @@ const logoUrl = `${import.meta.env.BASE_URL}server-logo.png`
 const transparentRoutes = ['home']
 const isTransparent = computed(() => transparentRoutes.includes(route.name) && !scrolled.value)
 
+const navItems = [
+  { path: '/', label: '首页' },
+  { path: '/map', label: '在线地图' },
+  { path: '/guide', label: '玩法指南' },
+  { path: '/leaderboard', label: '排行榜' },
+  { path: '/about', label: '关于我们' },
+]
+
+function isActive(item) {
+  if (item.path === '/') return route.path === '/'
+  return route.path === item.path || route.path.startsWith(`${item.path}/`)
+}
+
 function onScroll() {
   scrolled.value = window.scrollY > 40
 }
@@ -30,11 +43,12 @@ onBeforeUnmount(() => {
         <img class="brand-logo" :src="logoUrl" width="72" height="72" alt=""><span>MLC</span>
       </router-link>
       <nav class="site-nav" aria-label="主导航">
-        <router-link to="/">首页</router-link>
-        <router-link to="/map">在线地图</router-link>
-        <router-link to="/guide">玩法指南</router-link>
-        <router-link to="/leaderboard">排行榜</router-link>
-        <router-link to="/about">关于我们</router-link>
+        <router-link
+          v-for="item in navItems"
+          :key="item.path"
+          :to="item.path"
+          :class="{ 'is-nav-active': isActive(item) }"
+        >{{ item.label }}</router-link>
       </nav>
     </div>
   </header>
