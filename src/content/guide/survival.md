@@ -13,6 +13,5 @@
 - [特殊机制](mechanics)
 - [多方块结构](multiblock)
 - [圈区块系统](claims)
-- 邮件系统
-- [假人，暂未回归](dummies)
+- [经济、邮件与物品](features)
 - [建筑商店](shop)
