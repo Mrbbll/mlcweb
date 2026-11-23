@@ -5,7 +5,8 @@ import { renderPlayerHead } from '@/utils/head-renderer'
 
 const baseUrl = import.meta.env.BASE_URL
 const backdropUrl = `${baseUrl}pics/server-01.jpg`
-const CACHE_VERSION = 2
+const CACHE_VERSION = 3
+const CACHE_TTL = 60 * 60 * 1000
 const balanceFormatter = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 2 })
 
 const boards = reactive({
@@ -39,17 +40,13 @@ const board = computed(() => boards[activeKey.value])
 const payload = computed(() => board.value.payload)
 const keyword = ref('')
 
-function todayStamp() {
-  const now = new Date()
-  return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
-}
-
 function readCache(cacheKey) {
   try {
     const raw = localStorage.getItem(cacheKey)
     if (!raw) return null
     const entry = JSON.parse(raw)
-    if (entry.version !== CACHE_VERSION || entry.date !== todayStamp()) return null
+    if (entry.version !== CACHE_VERSION) return null
+    if (!Number.isFinite(entry.savedAt) || Date.now() - entry.savedAt > CACHE_TTL) return null
     return entry.data
   } catch {
     return null
@@ -60,7 +57,7 @@ function writeCache(cacheKey, data) {
   try {
     localStorage.setItem(cacheKey, JSON.stringify({
       version: CACHE_VERSION,
-      date: todayStamp(),
+      savedAt: Date.now(),
       data,
     }))
   } catch {
