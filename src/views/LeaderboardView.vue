@@ -95,7 +95,7 @@ const ranked = computed(() => {
   const { valueKey } = board.value
   return (payload.value?.players ?? [])
     .filter(player => typeof player?.name === 'string' && player.name && Number.isFinite(player[valueKey])
-      && (player.name === '7_door_3' || !/_\d+$|^[A-Z]{2}\d+$|^\d+$/.test(player.name)))
+      && (player.name === '7_door_3' || !/_\d+$|^[A-Z]{2}\d+$|^\d+$|^(.)\1+$|^MLC$/.test(player.name)))
     .sort((a, b) => b[valueKey] - a[valueKey])
     .map((player, index) => ({ ...player, rank: index + 1 }))
 })
@@ -128,7 +128,7 @@ const totalLabel = computed(() => {
   return formatTotal(ranked.value.reduce((sum, player) => sum + player[valueKey], 0))
 })
 
-const totalPlayers = computed(() => payload.value?.totalPlayers ?? ranked.value.length)
+const totalPlayers = computed(() => ranked.value.length)
 
 const isDemo = computed(() => payload.value?.demo === true)
 
