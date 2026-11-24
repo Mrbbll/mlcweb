@@ -95,7 +95,7 @@ const ranked = computed(() => {
   const { valueKey } = board.value
   return (payload.value?.players ?? [])
     .filter(player => typeof player?.name === 'string' && player.name && Number.isFinite(player[valueKey])
-      && (activeKey.value !== 'playtime' || !/_\d+$|^[A-Z]{2}\d+$/.test(player.name)))
+      && (player.name === '7_door_3' || !/_\d+$|^[A-Z]{2}\d+$|^\d+$/.test(player.name)))
     .sort((a, b) => b[valueKey] - a[valueKey])
     .map((player, index) => ({ ...player, rank: index + 1 }))
 })
