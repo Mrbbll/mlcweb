@@ -2,6 +2,11 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8">
+    <script>
+      if (/Android/i.test(navigator.userAgent) && /MQQBrowser\/|MicroMessenger\/|\bQQ\//i.test(navigator.userAgent)) {
+        document.documentElement.classList.add('tencent-mobile')
+      }
+    </script>
     <link rel="icon" type="image/png" sizes="512x512" href="/server-logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#ffffff">

@@ -2,13 +2,16 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const baseUrl = import.meta.env.BASE_URL
+const tencentMobile = document.documentElement.classList.contains('tencent-mobile')
 
 const slides = [
-  { src: `${baseUrl}pics/server-01.jpg`, alt: 'MLC 服务器图片 1' },
-  { src: `${baseUrl}pics/server-02.png`, alt: 'MLC 服务器图片 2' },
-  { src: `${baseUrl}pics/server-03.png`, alt: 'MLC 服务器图片 3' },
-  { src: `${baseUrl}pics/server-04.png`, alt: 'MLC 服务器图片 4' },
+  { src: `${baseUrl}pics/server-01.jpg`, mobile: `${baseUrl}pics/server-01-960.webp`, alt: 'MLC 服务器图片 1' },
+  { src: `${baseUrl}pics/server-02.png`, mobile: `${baseUrl}pics/server-02-960.webp`, alt: 'MLC 服务器图片 2' },
+  { src: `${baseUrl}pics/server-03.png`, mobile: `${baseUrl}pics/server-03-960.webp`, alt: 'MLC 服务器图片 3' },
+  { src: `${baseUrl}pics/server-04.png`, mobile: `${baseUrl}pics/server-04-960.webp`, alt: 'MLC 服务器图片 4' },
 ]
+
+const slideSrc = slide => tencentMobile ? slide.mobile : slide.src
 
 const cycleDuration = 5000
 
@@ -81,7 +84,7 @@ onBeforeUnmount(() => {
           :class="{ 'is-active': i === index }"
           :aria-hidden="i === index ? 'false' : 'true'"
         >
-          <img :src="slide.src" :alt="slide.alt" :fetchpriority="i === 0 ? 'high' : undefined">
+          <img :src="slideSrc(slide)" :alt="slide.alt" :fetchpriority="i === 0 ? 'high' : undefined">
         </figure>
       </div>
       <div class="hero-overlay"></div>

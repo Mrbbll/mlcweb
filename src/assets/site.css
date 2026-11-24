@@ -223,3 +223,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #3ca7ec; outline-offs
 @media (max-width: 360px) {
   .site-nav a { font-size: 12px; }
 }
+.tencent-mobile .site-header:not(.is-transparent) { background: rgba(255, 255, 255, .94); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.tencent-mobile .site-footer { background: rgba(255, 255, 255, .94); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.tencent-mobile .leaderboard-panel { background: rgba(18, 24, 18, .72); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.tencent-mobile .hero-controls { background: rgba(0, 0, 0, .6); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.tencent-mobile .home-hero .button { background: rgba(0, 0, 0, .35); backdrop-filter: none; -webkit-backdrop-filter: none; }

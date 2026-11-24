@@ -1,12 +1,13 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { BAClickFX } from 'ba-click-fx'
 import SiteHeader from '@/components/SiteHeader.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 import MapView from '@/views/MapView.vue'
 
 let clickFx = null
+let alive = false
+const tencentMobile = document.documentElement.classList.contains('tencent-mobile')
 
 const handleRawPointerMove = event => {
   if (!clickFx || event.pointerType === 'touch') return
@@ -18,7 +19,11 @@ const handleRawPointerMove = event => {
   })
 }
 
-onMounted(() => {
+onMounted(async () => {
+  alive = true
+  if (tencentMobile) return
+  const { BAClickFX } = await import('ba-click-fx')
+  if (!alive) return
   clickFx = new BAClickFX({
     outputCompositing: 'browser-overlay',
     hostCompositing: 'screen',
@@ -31,6 +36,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  alive = false
   window.removeEventListener('pointerrawupdate', handleRawPointerMove, true)
   clickFx?.destroy()
   clickFx = null
