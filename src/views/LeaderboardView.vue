@@ -2,6 +2,7 @@
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { economyLeaderboardEndpoint, leaderboardEndpoint } from '@/site-config'
 import { renderPlayerHead } from '@/utils/head-renderer'
+import TotalAssaultLeaderboard from '@/components/TotalAssaultLeaderboard.vue'
 
 const baseUrl = import.meta.env.BASE_URL
 const backdropUrl = `${baseUrl}pics/server-01.jpg`
@@ -35,6 +36,7 @@ const boards = reactive({
     payload: null,
   },
 })
+boards.assault = { label: '总力战', title: '总力战', status: 'idle', payload: null }
 const activeKey = ref('playtime')
 const board = computed(() => boards[activeKey.value])
 const payload = computed(() => board.value.payload)
@@ -93,6 +95,7 @@ onMounted(() => loadLeaderboard(board.value))
 
 const ranked = computed(() => {
   const { valueKey } = board.value
+  if (activeKey.value === 'assault') return []
   return (payload.value?.players ?? [])
     .filter(player => typeof player?.name === 'string' && player.name && Number.isFinite(player[valueKey])
       && (player.name === '7_door_3' || !/_\d+$|^[A-Z]{2}\d+$|^\d+$|^(.)\1+$|^MLC$/.test(player.name)))
@@ -120,11 +123,12 @@ watch(keyword, () => {
 watch(activeKey, () => {
   keyword.value = ''
   page.value = 1
-  loadLeaderboard(board.value)
+  if (activeKey.value !== 'assault') loadLeaderboard(board.value)
 })
 
 const totalLabel = computed(() => {
   const { valueKey, formatTotal } = board.value
+  if (activeKey.value === 'assault') return ''
   return formatTotal(ranked.value.reduce((sum, player) => sum + player[valueKey], 0))
 })
 
@@ -205,6 +209,8 @@ function podiumClass(rank) {
             @click="activeKey = key"
           >{{ option.label }}</button>
         </div>
+        <TotalAssaultLeaderboard v-if="activeKey === 'assault'" />
+        <template v-else>
         <p v-if="isDemo" class="leaderboard-notice">数据接口还在接入，以下是示例数据，正式数据上线后自动替换。</p>
 
         <p v-if="board.status === 'idle' || board.status === 'loading'" class="leaderboard-state" role="status">正在加载排行榜……</p>
@@ -251,6 +257,7 @@ function podiumClass(rank) {
             <button type="button" :disabled="page === totalPages" @click="page++">下一页</button>
           </nav>
           <p v-if="!filtered.length" class="leaderboard-state">{{ keyword.trim() ? '没有匹配的玩家。' : '暂无上榜玩家。' }}</p>
+        </template>
         </template>
       </div>
     </div>

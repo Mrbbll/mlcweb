@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 4,16 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -36,12 +36,18 @@ jobs:
           }
           update_leaderboard playtime leaderboard.json
           update_leaderboard economy economy-leaderboard.json
+          if curl -fsS --max-time 60 "http://api.mylittlecraft.top:19396/api/v1/totalassault/leaderboard" -o /tmp/totalassault-leaderboard.json; then
+            mv /tmp/totalassault-leaderboard.json public/data/totalassault-leaderboard.json
+          else
+            echo "总力战排行榜接口抓取失败，沿用仓库中的数据"
+          fi
       - run: npm ci
       - run: npm run build
         env:
           VITE_BASE: /mlcweb/
           VITE_LEADERBOARD_ENDPOINT: data/leaderboard.json
           VITE_ECONOMY_LEADERBOARD_ENDPOINT: data/economy-leaderboard.json
+          VITE_TOTAL_ASSAULT_ENDPOINT: data/totalassault-leaderboard.json
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
